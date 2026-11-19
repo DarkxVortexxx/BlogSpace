@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Dashboard | BlogSpace</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            background: #f8f6f1;
+        }
+
+        .dashboard {
+            max-width: 1150px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        .welcome-box {
+            background: #f1eae0;
+            padding: 40px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .welcome-box h1 {
+            font-size: 38px;
+            margin: 12px 0;
+        }
+
+        .welcome-box p {
+            color: #777;
+        }
+
+        .profile-box {
+            background: white;
+            padding: 20px 28px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .profile-icon {
+            font-size: 35px;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 35px 0 50px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 28px;
+            border-radius: 16px;
+            border: 1px solid #eee;
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h2 {
+            font-size: 35px;
+            color: #ed7954;
+            margin-bottom: 8px;
+        }
+
+        .stat-card p {
+            color: #777;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid #eee;
+            transition: 0.3s;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .blog-card h3 {
+            font-size: 21px;
+            margin-bottom: 15px;
+        }
+
+        .blog-status {
+            display: inline-block;
+            background: #fff0e9;
+            color: #ed7954;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 18px;
+        }
+
+        .blog-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 22px;
+        }
+
+        .blog-actions button,
+        .blog-actions a {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .read-btn {
+            background: #f1eae0;
+            color: #333;
+        }
+
+        .edit-btn {
+            background: #ed7954;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #ffe8e8;
+            color: #d33;
+        }
+
+        .create-btn {
+            background: #ed7954;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        #message {
+            color: #777;
+            padding: 20px 0;
+        }
+
+        @media(max-width: 650px) {
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-box h1 {
+                font-size: 29px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a href="/" class="logo">BlogSpace.</a>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/saved.html">Saved</a>
+            <a href="/profile.html">My Profile 👤</a>
+        </nav>
+    </header>
+
+    <main class="dashboard">
+
+        <!-- WELCOME SECTION -->
+        <section class="welcome-box">
+
+            <div>
+                <p class="eyebrow">YOUR SPACE. YOUR STORIES.</p>
+
+                <h1>Welcome back, <span id="username">Writer</span>! 👋</h1>
+
+                <p>Manage your stories, track your progress and keep writing.</p>
+            </div>
+
+            <div class="profile-box">
+                <img id="dashboardPicture" src=""
+                    style="width:90px;height:90px;border-radius:50%;object-fit:cover;display:none;">
+
+                <div class="profile-icon" id="defaultIcon">👤</div>
+                <h3 id="profileName">Writer</h3>
+                <p>BlogSpace Member</p>
+
+                <p id="profileBio" style="margin-top:12px;">
+                    No bio added yet.
+                </p>
+
+                <a href="/profile.html" style="display:inline-block;margin-top:15px;color:#ed7954;">
+                    Edit Profile →
+                </a>
+            </div>
+
+        </section>
+
+        <!-- STATISTICS -->
+        <section class="dashboard-stats">
+
+            <div class="stat-card">
+                <h2 id="totalPosts">0</h2>
+                <p>📝 Total Blogs</p>
+            </div>
+
+            <div class="stat-card">
+                <h2 id="publishedPosts">0</h2>
+                <p>🌟 Published Blogs</p>
+            </div>
+
+            <div class="stat-card">
+                <h2 id="draftPosts">0</h2>
+                <p>📁 Drafts</p>
+            </div>
+
+        </section>
+
+        <!-- BLOG SECTION -->
+        <section>
+
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">YOUR COLLECTION</p>
+                    <h2>My Stories ✍️</h2>
+                </div>
+
+                <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                    <a href="/" class="create-btn">Explore Blogs →</a>
+                    <a href="/?create=1" class="create-btn">+ Create New Blog</a>
+                </div>
+            </div>
+
+            <div id="myBlogs" class="blog-grid">
+                <p id="message">Loading your blogs...</p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+
+        function getCSRFToken() {
+            return document.cookie.split("; ")
+                .find(row => row.startsWith("csrftoken="))
+                ?.split("=")[1];
+        }
+
+        async function loadDashboard() {
+
+            const container = document.getElementById("myBlogs");
+
+            try {
+
+                const response = await fetch("/api/posts/mine/", {
+                    credentials: "same-origin"
+                });
+
+                if (!response.ok) {
+                    container.textContent = "Please login to view your dashboard.";
+                    return;
+                }
+
+                const posts = await response.json();
+
+                // USER DETAILS
+                const userResponse = await fetch("/api/accounts/me/", {
+                    credentials: "same-origin"
+                });
+
+                if (userResponse.ok) {
+                    const user = await userResponse.json();
+
+                    document.getElementById("username").textContent = user.username;
+                    document.getElementById("profileName").textContent = user.username;
+                    const profileResponse = await fetch("/api/accounts/profile/", {
+                        credentials: "same-origin"
+                    });
+
+                    if (profileResponse.ok) {
+                        const profile = await profileResponse.json();
+
+                        document.getElementById("profileBio").textContent =
+                            profile.bio || "No bio added yet.";
+
+                        if (profile.profile_picture) {
+                            const picture = document.getElementById("dashboardPicture");
+                            picture.src = profile.profile_picture;
+                            picture.style.display = "block";
+
+                            document.getElementById("defaultIcon").style.display = "none";
+                        }
+                    }
+                }
+
+                // STATISTICS
+                const published = posts.filter(p => p.status === "Published");
+                const drafts = posts.filter(p => p.status === "Draft");
+
+                document.getElementById("totalPosts").textContent = posts.length;
+                document.getElementById("publishedPosts").textContent = published.length;
+                document.getElementById("draftPosts").textContent = drafts.length;
+
+                container.innerHTML = "";
+
+                if (!posts.length) {
+                    container.textContent = "You haven't written any blogs yet.";
+                    return;
+                }
+
+                // DISPLAY BLOGS
+                posts.forEach(post => {
+
+                    const card = document.createElement("div");
+                    card.className = "blog-card";
+
+                    const title = document.createElement("h3");
+                    title.textContent = post.title;
+
+                    const status = document.createElement("span");
+                    status.className = "blog-status";
+                    status.textContent = post.status;
+
+                    const actions = document.createElement("div");
+                    actions.className = "blog-actions";
+
+                    // READ
+                    const read = document.createElement("a");
+                    read.href = `/post.html?slug=${encodeURIComponent(post.slug)}`;
+                    read.textContent = "Read Blog";
+                    read.className = "read-btn";
+
+                    // EDIT
+                    const edit = document.createElement("button");
+                    edit.textContent = "Edit";
+                    edit.className = "edit-btn";
+
+                    edit.onclick = () => {
+                        location.href =
+                            `/edit.html?slug=${encodeURIComponent(post.slug)}`;
+                    };
+
+                    // DELETE
+                    const deleteBtn = document.createElement("button");
+                    deleteBtn.textContent = "Delete";
+                    deleteBtn.className = "delete-btn";
+
+                    deleteBtn.onclick = async () => {
+
+                        if (!confirm("Are you sure you want to delete this blog?")) {
+                            return;
+                        }
+
+                        await fetch("/api/accounts/csrf/", {
+                            credentials: "same-origin"
+                        });
+
+                        const csrf = getCSRFToken();
+
+                        const result = await fetch(
+                            `/api/posts/${encodeURIComponent(post.slug)}/`,
+                            {
+                                method: "DELETE",
+                                credentials: "same-origin",
+                                headers: {
+                                    "X-CSRFToken": csrf
+                                }
+                            }
+                        );
+
+                        if (result.ok) {
+                            alert("Blog deleted successfully!");
+                            loadDashboard();
+                        } else {
+                            alert("Could not delete blog.");
+                        }
+                    };
+
+                    actions.append(read, edit, deleteBtn);
+
+                    card.append(title, status, actions);
+
+                    container.appendChild(card);
+
+                });
+
+            } catch (error) {
+
+                container.textContent = "Could not load dashboard.";
+                console.error(error);
+
+            }
+        }
+
+        loadDashboard();
+
+    </script>
+
+</body>
+
+</html>

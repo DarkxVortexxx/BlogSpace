@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Saved Blogs | BlogSpace</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a href="/" class="logo">BlogSpace.</a>
+        <a href="/" class="back-link">← Back to Home</a>
+    </header>
+
+    <main class="saved-page">
+        <p class="eyebrow">YOUR COLLECTION</p>
+        <h1>My Saved Blogs 🔖</h1>
+        <p>All your favourite stories, in one place.</p>
+
+        <div id="savedBlogs" class="blog-grid">
+            Loading saved blogs...
+        </div>
+    </main>
+
+    <script>
+        async function loadSavedBlogs() {
+            const container = document.getElementById("savedBlogs");
+
+            try {
+                const response = await fetch("/api/posts/saved/", {
+                    credentials: "same-origin"
+                });
+
+                if (response.status === 401 || response.status === 403) {
+                    container.textContent = "Please login to view saved blogs.";
+                    return;
+                }
+
+                const posts = await response.json();
+
+                container.innerHTML = "";
+
+                if (!posts.length) {
+                    container.textContent = "You haven't saved any blogs yet.";
+                    return;
+                }
+
+                posts.forEach(post => {
+                    const card = document.createElement("div");
+                    card.className = "blog-card";
+
+                    const info = document.createElement("div");
+                    info.className = "blog-info";
+
+                    const title = document.createElement("h3");
+                    title.textContent = post.title;
+
+                    const author = document.createElement("p");
+                    author.textContent = `By ${post.author}`;
+
+                    const read = document.createElement("a");
+                    read.href = `/post.html?slug=${encodeURIComponent(post.slug)}`;
+                    read.textContent = "Read Article →";
+
+                    info.append(title, author, read);
+                    card.appendChild(info);
+                    container.appendChild(card);
+                });
+
+            } catch (error) {
+                container.textContent = "Could not load saved blogs.";
+                console.error(error);
+            }
+        }
+
+        loadSavedBlogs();
+    </script>
+
+</body>
+
+</html>

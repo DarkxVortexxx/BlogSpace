@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Blog | BlogSpace</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a href="/" class="logo">BlogSpace.</a>
+        <a href="/dashboard.html" class="back-link">← Dashboard</a>
+    </header>
+
+    <main class="saved-page">
+        <h1>Edit Your Blog ✍️</h1>
+
+        <form id="editForm">
+            <input id="title" type="text" placeholder="Blog title" required>
+
+            <textarea id="content" rows="12" placeholder="Write your story..." required></textarea>
+
+            <input id="tags" type="text" placeholder="Tags (comma separated)">
+
+            <input id="cover" type="url" placeholder="Cover image URL">
+
+            <select id="status">
+                <option value="Published">Published</option>
+                <option value="Draft">Draft</option>
+            </select>
+
+            <button type="submit" class="primary-btn">Save Changes</button>
+        </form>
+
+        <p id="message"></p>
+    </main>
+
+    <script>
+        const slug = new URLSearchParams(location.search).get("slug");
+
+        function getCSRFToken() {
+            return document.cookie.split("; ")
+                .find(row => row.startsWith("csrftoken="))
+                ?.split("=")[1];
+        }
+
+        async function loadBlog() {
+            try {
+                const response = await fetch(`/api/posts/${encodeURIComponent(slug)}/`);
+
+                if (!response.ok) throw new Error("Blog not found");
+
+                const post = await response.json();
+
+                document.getElementById("title").value = post.title;
+                document.getElementById("content").value = post.content;
+                document.getElementById("tags").value = post.tags_input || "";
+                document.getElementById("cover").value = post.cover_image || "";
+                document.getElementById("status").value = post.status;
+
+            } catch (error) {
+                document.getElementById("message").textContent =
+                    "Could not load blog.";
+            }
+        }
+
+        document.getElementById("editForm").addEventListener("submit", async e => {
+            e.preventDefault();
+
+            await fetch("/api/accounts/csrf/", {
+                credentials: "same-origin"
+            });
+
+            const data = {
+                title: document.getElementById("title").value,
+                content: document.getElementById("content").value,
+                tags_input: document.getElementById("tags").value,
+                cover_image: document.getElementById("cover").value,
+                status: document.getElementById("status").value
+            };
+
+            const response = await fetch(`/api/posts/${encodeURIComponent(slug)}/`, {
+                method: "PATCH",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCSRFToken()
+                },
+                body: JSON.stringify(data)
+            });
+
+            const message = document.getElementById("message");
+
+            if (response.ok) {
+                message.textContent = "Blog updated successfully! 🎉";
+
+                setTimeout(() => {
+                    location.href = "/dashboard.html";
+                }, 1000);
+            } else {
+                const error = await response.json();
+                message.textContent = JSON.stringify(error);
+            }
+        });
+
+        loadBlog();
+    </script>
+
+</body>
+
+</html>

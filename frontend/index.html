@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlogSpace | Share Your Stories
+    </title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="logo">Blog<span>Space.</span></div>
+
+        <nav class="nav-links">
+            <a href="#" class="active">Home</a>
+            <a href="#explore">Explore</a>
+            <a href="#about">About</a>
+            <a href="/dashboard.html">Dashboard</a>
+            <a href="/saved.html">Saved 🔖</a>
+        </nav>
+
+        <div class="nav-buttons">
+            <button class="write-btn" id="createPostBtn" onclick="openCreatePost()" style="display:none;">
+                + Write Blog
+            </button>
+            <button class="login-btn" onclick="showLogin()">Login</button>
+            <button class="signup-btn" onclick="showRegister()">Get Started ↗</button>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+
+        <div class="hero-content">
+            <span class="tagline">✦ YOUR SPACE. YOUR STORIES.</span>
+
+            <h1>
+                Every story<br>
+                deserves a <span>space.</span>
+            </h1>
+
+            <p>
+                Discover ideas, share experiences and connect
+                with people through stories that matter.
+            </p>
+
+            <div class="hero-buttons">
+                <button onclick="scrollToBlogs()" class="primary-btn">
+                    Explore Blogs →
+                </button>
+
+                <button onclick="showRegister()" class="secondary-btn">
+                    Start Writing
+                </button>
+            </div>
+
+            <div class="hero-note">
+                ✦ Read. Write. Connect.
+            </div>
+        </div>
+
+        <div class="hero-art">
+            <div class="floating-card card-one">
+                ✍️
+                <h3>Write freely.</h3>
+                <p>Your thoughts matter.</p>
+            </div>
+
+            <div class="floating-card card-two">
+                💡
+                <h3>Explore ideas.</h3>
+                <p>Discover something new.</p>
+            </div>
+
+            <div class="hero-circle">
+                <span>BS</span>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- BLOG SECTION -->
+    <section class="blogs-section" id="explore">
+
+        <div class="section-heading">
+            <div>
+                <span class="tagline">✦ THE COMMUNITY</span>
+                <h2>Explore stories.</h2>
+                <p>Fresh perspectives from our writers.</p>
+            </div>
+
+            <input type="text" id="searchInput" placeholder="Search blogs..." oninput="searchBlogs()">
+        </div>
+
+        <div class="category-list">
+            <button class="category-btn active" onclick="filterCategory('')">All</button>
+            <button class="category-btn" onclick="filterCategory('Technology')">Technology</button>
+            <button class="category-btn" onclick="filterCategory('Lifestyle')">Lifestyle</button>
+            <button class="category-btn" onclick="filterCategory('Education')">Education</button>
+        </div>
+
+        <div class="blog-grid" id="blogContainer">
+            <p>Loading stories...</p>
+        </div>
+
+        <button id="loadMoreBtn" class="load-more-btn" onclick="loadMoreBlogs()">
+            Load More ↓
+        </button>
+
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about-section" id="about">
+        <span class="tagline">✦ WHY BLOGSPACE?</span>
+        <h2>A little space for<br>big ideas.</h2>
+        <p>
+            BlogSpace is a community where everyone gets
+            the freedom to express, explore and inspire.
+        </p>
+    </section>
+
+    <!-- AUTHENTICATION MODAL -->
+    <div class="modal-overlay" id="authModal">
+
+        <div class="auth-box">
+
+            <button class="close-modal" onclick="closeAuth()">×</button>
+
+            <div class="logo">Blog<span>Space.</span></div>
+
+            <h2 id="authTitle">Welcome Back!</h2>
+
+            <p id="authSubtitle">Login to continue your journey.</p>
+
+            <form id="authForm">
+
+                <div id="nameField" style="display:none;">
+                    <input type="text" id="fullName" placeholder="Your name">
+                </div>
+
+                <input type="text" id="username" placeholder="Username" required>
+
+                <div id="emailField" style="display:none;">
+                    <input type="email" id="email" placeholder="Email address">
+                </div>
+
+                <input type="password" id="password" placeholder="Password" required>
+
+                <button type="submit" class="primary-btn" id="authSubmit">
+                    Login
+                </button>
+
+            </form>
+
+            <p class="auth-switch" id="authSwitch">
+                Don't have an account?
+                <span onclick="showRegister()">Register</span>
+            </p>
+
+            <p id="authMessage"></p>
+
+        </div>
+
+    </div>
+    <!-- CREATE BLOG MODAL -->
+    <div class="modal-overlay" id="postModal">
+
+        <div class="auth-box create-box">
+
+            <button class="close-modal" onclick="closeCreatePost()">×</button>
+
+            <h2>Create a Blog ✍️</h2>
+            <p>Share your thoughts with the world.</p>
+
+            <form id="createPostForm">
+
+                <input type="text" id="postTitle" placeholder="Blog title" required>
+
+                <textarea id="postContent" placeholder="Write your story..." rows="8" required></textarea>
+
+                <input type="text" id="postTags" placeholder="Tags (e.g. Python, Technology)">
+
+                <input type="url" id="postImage" placeholder="Cover image URL (optional)">
+
+                <select id="postStatus">
+                    <option value="Published">Publish Now</option>
+                    <option value="Draft">Save as Draft</option>
+                </select>
+
+                <button type="submit" class="primary-btn">
+                    Publish Blog
+                </button>
+
+            </form>
+
+            <p id="postMessage"></p>
+
+        </div>
+
+    </div>
+    <!-- FOOTER -->
+    <footer>
+        <div class="logo">Blog<span>Space.</span></div>
+        <p>Made for stories that matter. © 2026 BlogSpace.</p>
+    </footer>
+
+</body>
+
+</html>
