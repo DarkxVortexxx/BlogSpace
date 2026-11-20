@@ -1,4 +1,4 @@
-# ✍️ BlogSpace — Share Your Stories
+# ✍️ BlogSpace Share Your Stories
 
 BlogSpace is a full-stack blogging platform where users can create, explore, and share their stories.
 
